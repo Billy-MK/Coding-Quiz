@@ -1,0 +1,14 @@
+.header {
+    text-align: center;
+    font-weight: bold;
+}
+
+.quizDescription {
+    text-align: center;
+    font-size: larger;
+    width: 500px;
+}
+
+#startButton {
+    width:200px;
+}

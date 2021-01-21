@@ -98,6 +98,8 @@ function nextQuestion() {
     $("#correct").on("click", function() {
         answerFunction();
         correctResponse();
+        $("#correct").attr("disabled", true).css("color", "black");
+        $(".incorrect").attr("disabled", true).css("color", "black");
     });
     
     // If the user clicks on an incorrect answer, runs the incorrectResponse function
@@ -105,6 +107,8 @@ function nextQuestion() {
     $(".incorrect").on("click", function() {
         answerFunction();
         incorrectResponse();
+        $(".incorrect").attr("disabled", true).css("color", "black");
+        $("#correct").attr("disabled", true).css("color", "black");
     });
     
 }

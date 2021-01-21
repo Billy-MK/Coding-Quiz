@@ -12,3 +12,19 @@
 #startButton {
     width:200px;
 }
+
+.answer {
+    width: 100px;
+}
+
+.score {
+    text-align: center;
+    font-weight: bold;
+}
+
+.highScore {
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    width: 200px;
+}

@@ -45,10 +45,11 @@ startButton.on("click", gameStart);
 
 function nextQuestion() {
 
-    // Clears text from previous question and answers
+    // Clears previous questions and answers
 
     $(".questions").empty();
     $(".answers").empty();
+    $(".nextQuestionButton").empty();
 
     // Updates score
     scoreUpdate();
@@ -93,62 +94,64 @@ function nextQuestion() {
     }
 
     // If the user clicks on the correct answer, runs correctResponse function
-
+    
     $("#correct").on("click", function() {
-        $(".incorrect").css("background-color", "#ff6347")
-        $("#correct").css("background-color", "#90ee90")
-        // correctResponse();
+        answerFunction();
+        correctResponse();
     });
-
+    
     // If the user clicks on an incorrect answer, runs the incorrectResponse function
-
+    
     $(".incorrect").on("click", function() {
-        $(".incorrect").css("background-color", "#ff6347")
-        $("#correct").css("background-color", "#90ee90")
-        // incorrectResponse();
+        answerFunction();
+        incorrectResponse();
     });
+    
+}
 
+// Sets background color of correct answers to green and incorrect to red and creates the "next question" button
+
+function answerFunction() {
+    $(".incorrect").css("background-color", "#ff6347");
+    $("#correct").css("background-color", "#90ee90");
+    var nextQuestionButton = $("<button>");
+    nextQuestionButton.addClass("btn btn-lg btn-primary mx-auto").text("Next Question").on("click", function() { 
+        nextQuestion();
+    });
+    $(".nextQuestionButton").append(nextQuestionButton);
+}
+
+// correctResponse adds 1 to the score, adds 1 to the question number and proceeds to the next question
+
+function correctResponse() {
+    score += 1;
+    questionNumber += 1;
+    
+    // Updates score
+    scoreUpdate();
+    
+    // Checks if this is the final question and runs appropriate function
+    if (questionNumber > questions.length) {
+        isComplete();
+    }
+}
+
+// incorrectResponse adds 1 to the question number and proceeds to the next question
+
+function incorrectResponse() {
+    questionNumber += 1;
+    
+    // Updates score
+    scoreUpdate();
+    
+    // Checks if this is the final question and runs appropriate function
+    if (questionNumber > questions.length) {
+        isComplete();
+    } 
 }
 
 function scoreUpdate() {
     $(".score").text("Score: " + score + "/" + (questionNumber - 1));
-}
-
-// correctResponse adds 1 to the score, sets the feedback div text to "correct", adds 1 to the question number and proceeds to the next question
-
-function correctResponse() {
-    var feedbackDiv = $(".feedback");
-    feedbackDiv.text("Correct!");
-    score += 1;
-    questionNumber += 1;
-
-    // Updates score
-    scoreUpdate();
-
-    // Checks if this is the final question and runs appropriate function
-    if (questionNumber > questions.length) {
-        isComplete();
-    } else {
-        nextQuestion();
-    }
-}
-
-// incorrectResponse sets the feedback div text to "incorrect", adds 1 to the question number and proceeds to the next question
-
-function incorrectResponse() {
-    var feedbackDiv = $(".feedback");
-    feedbackDiv.text("Incorrect.");
-    questionNumber += 1;
-
-    // Updates score
-    scoreUpdate();
-
-    // Checks if this is the final question and runs appropriate function
-    if (questionNumber > questions.length) {
-        isComplete();
-    } else{
-        nextQuestion();
-    }
 }
 
 function isComplete() {
@@ -156,14 +159,14 @@ function isComplete() {
     // Empties elements
     $(".questions").empty();
     $(".answers").empty();
-    $(".feedback").empty();
+    $(".nextQuestionButton").empty();
     
     // Checks if the current score is higher than the previous high score and updates the high score if it is
     var highScore = localStorage.getItem("high score");
     if (score > highScore) {
         localStorage.setItem("high score", score);
     }
-
+    
     // Displays the high score on the page after checking the local memory for the updated high score
     var highScoreDiv = $(".highScore");
     highScoreDiv.addClass("highScore");

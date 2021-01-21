@@ -14,7 +14,8 @@
 }
 
 .answer {
-    width: 100px;
+    width: 370px;
+    background-color: rgb(174, 252, 255);
 }
 
 .score {
@@ -28,3 +29,8 @@
     font-weight: bold;
     width: 200px;
 }
+
+.answers {
+    width:370px;
+}
+

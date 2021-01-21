@@ -1,24 +1,33 @@
 var startButton = $("#startButton");
 var quizDescription = $(".quizDescription");
 var questionNumber = 1;
-var questions = ["What is the correct syntax to create a new div using jQuery?", "Question 2", "Question 3", "Question 4", "Question 5", "Question 6", "Question 7", "Question 8", "Question 9", "Question 10"];
+var questions = ["What is the correct syntax to create a new div using jQuery?", 
+    "In an array fruits = ['apple','orange','banana','kiwi'], fruits[3] represents which variable?", 
+    "What is the importance of an alt tag in HTML images?", 
+    "Using Bootstrap, what class would you use to make a column that spans 1/3rd of the width of the container it's in?", 
+    "I have a div with a class = 'captainAmerica', and I would like to make the width 300px. How would I do this using a css stylesheet?",
+    "Stylesheets should always be referenced in what part of the HTML document?",
+    "What is the priority from highest to lowest of CSS styling?",
+    "How do I create a for loop that adds all the numbers from 'var numbers = [2, 5, 7] together in a new variable called sum? (both variables have already been declared)",
+    "How does one leave a comment in HTML?",
+    "What should you always include with any project?"];
 var answers = {
     1:[" $(div) ", " $'<div>' ", " $('<div>') ", " $(<div>) "],
-    2:["Answer 1 to Question 2", "Answer 2 to Question 2", "Answer 3 to Question 2", "Answer 4 to Question 2"],
-    3:["answer1", "answer2", "answer3", "answer4"],
-    4:["answer1", "answer2", "answer3", "answer4"],
-    5:["answer1", "answer2", "answer3", "answer4"],
-    6:["answer1", "answer2", "answer3", "answer4"],
-    7:["answer1", "answer2", "answer3", "answer4"],
-    8:["answer1", "answer2", "answer3", "answer4"],
-    9:["answer1", "answer2", "answer3", "answer4"],
-    10:["answer1", "answer2", "answer3", "answer4"]
+    2:["apple", "orange", "banana", "kiwi"],
+    3:["To improve accessibility of your page to users using screen readers", "To provide an alternate url for the image in case the first url doesn't work", "To add a caption to the image", "To place a second image in the same element"],
+    4:["col-md-1/3", "col-md-4", "col-md-3", "col-md-0.33"],
+    5:["captainAmerica {width = 300px}", ".captainAmerica {width = 300px}", "captainAmerica {width: 300px}", ".captainAmerica {width: 300px}"],
+    6:["The beginning", "The end", "Anywhere", "The stylesheet section"],
+    7:["ID, In-line, class, tag", "tag, ID, class, In-line", "In-line, ID, class, tag", "class,tag, In-line, ID"],
+    8:["for (numbers[all], sum(numbers), return(sum));", "for (var i = 0, i < numbers.length, i++) {sum += numbers[i]}", "for (var i = 0; i < numbers.length; i++) {sum += numbers[i]}", "for (i = numbers[0], i = numbers[1], i = numbers[2]) {sum = i++}"],
+    9:["// comment", "<!-- comment -->", "/* comment */", "# comment"],
+    10:["A README", "A MEME", "A SCREAMIN' MEEMIE", "SUMTHIN STEAMY"]
 }
 var score = 0;
 
 // The list of correct answers for all questions (0-3)
 
-var correctAnswers = [2,1,2,3,0,1,2,3,0,1];
+var correctAnswers = [2,3,0,1,3,0,2,2,1,0];
 
 // Removes the description text and begins the first question
 
@@ -48,7 +57,7 @@ function nextQuestion() {
 
     var questionDiv = $("<div>");
     questionDiv.addClass("question");
-    questionDiv.text("Question " + (questionNumber) + ": " + questions[questionNumber - 1]);
+    questionDiv.text(questionNumber + ": " + questions[questionNumber - 1]);
     $(".questions").append(questionDiv);
 
     // Adds 4 answer buttons with correct/incorrect IDs based on the answers array defined earlier
@@ -86,13 +95,17 @@ function nextQuestion() {
     // If the user clicks on the correct answer, runs correctResponse function
 
     $("#correct").on("click", function() {
-        correctResponse();
+        $(".incorrect").css("background-color", "#ff6347")
+        $("#correct").css("background-color", "#90ee90")
+        // correctResponse();
     });
 
     // If the user clicks on an incorrect answer, runs the incorrectResponse function
 
     $(".incorrect").on("click", function() {
-        incorrectResponse();
+        $(".incorrect").css("background-color", "#ff6347")
+        $("#correct").css("background-color", "#90ee90")
+        // incorrectResponse();
     });
 
 }
@@ -155,11 +168,11 @@ function isComplete() {
     var highScoreDiv = $(".highScore");
     highScoreDiv.addClass("highScore");
     highScore = localStorage.getItem("high score");
-    highScoreDiv.text("High Score = " + highScore);
+    highScoreDiv.text("High Score = " + highScore +"/10");
 
     // Generates a button to start the quiz over
     var newGameButton = $("<button>");
-    newGameButton.addClass("btn btn-lg btn-primary mt-3").text("Play again?").on("click", function() {
+    newGameButton.addClass("btn btn-lg btn-primary mt-3").text("Try again?").on("click", function() {
         score = 0;
         questionNumber = 1;
         gameStart();

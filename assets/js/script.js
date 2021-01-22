@@ -24,6 +24,7 @@ var answers = {
     10:["A README", "A MEME", "A SCREAMIN' MEEMIE", "SUMTHIN STEAMY"]
 }
 var score = 0;
+var time = 0;
 
 // The list of correct answers for all questions (0-3)
 
@@ -34,6 +35,20 @@ var correctAnswers = [2,3,0,1,3,0,2,2,1,0];
 function gameStart() {
     quizDescription.remove();
     $(".quiz").empty();
+    $(".timeDiv").text("Time remaining: 120");
+    time = 120;
+    var timerInterval = setInterval(function() {
+        time --;
+        $(".timeDiv").text("Time remaining: " + time);
+        if (time === 0) {
+            clearInterval(timerInterval);
+            questionNumber = 10;
+            isComplete();
+        }
+        if (questionNumber === 10) {
+            clearInterval(timerInterval);
+        }
+    }, 1000);
     nextQuestion();
 }
 
@@ -105,6 +120,9 @@ function nextQuestion() {
     // If the user clicks on an incorrect answer, runs the incorrectResponse function
     
     $(".incorrect").on("click", function() {
+
+        // Reduces time remaining by ten seconds
+        time -= 10;
         answerFunction();
         incorrectResponse();
         $(".incorrect").attr("disabled", true).css("color", "black");
@@ -160,22 +178,27 @@ function scoreUpdate() {
 
 function isComplete() {
     
-    // Empties elements
-    $(".questions").empty();
+    // Empties elements, uses questions div to inform the user that the quiz is complete
+    $(".questions").empty().text("Quiz complete!");
     $(".answers").empty();
     $(".nextQuestionButton").empty();
-    
+
     // Checks if the current score is higher than the previous high score and updates the high score if it is
     var highScore = localStorage.getItem("high score");
     if (score > highScore) {
         localStorage.setItem("high score", score);
     }
-    
+
     // Displays the high score on the page after checking the local memory for the updated high score
     var highScoreDiv = $(".highScore");
     highScoreDiv.addClass("highScore");
     highScore = localStorage.getItem("high score");
-    highScoreDiv.text("High Score = " + highScore +"/10");
+    highScoreDiv.text("High Score: " + highScore +"/10");
+    
+    // Displays your score
+    var yourScore = $("<div>");
+    yourScore.text("Your score: " + score + "/10");
+    highScoreDiv.prepend(yourScore);
 
     // Generates a button to start the quiz over
     var newGameButton = $("<button>");

@@ -38,3 +38,8 @@
     width: 500px;
     text-align: center;
 }
+
+.timeDiv {
+    text-align: center;
+    font-weight: bold;
+}
